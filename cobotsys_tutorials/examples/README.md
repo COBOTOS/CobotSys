@@ -9,6 +9,8 @@
 
 进入cobotsys_sdk目录，执行source setenv.sh设置环境变量，在同一终端下进入clion安装目录，./clion.sh即可打开clion，在clion中打开需要运行的例程，加载CMakeLists.txt后，即可编译运行。
 
+##### 注意：例程的二级目录需取名为test！
+
 #### 包含的例程
 机器人相关例程：如COBOTLINK_Robot
 
@@ -19,4 +21,3 @@
 其他例程：如Vtk.Test、OSG.Test
 
 可结合相应的接口函数理解例程：https://github.com/COBOTOS/CobotSys/blob/master/cobotsys_tutorials/README.md
-
