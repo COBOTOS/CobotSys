@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<opencv_storage>
+    <!--//对comatrix相机截取图像的ROI区域参数-->
+    <roiX>400</roiX>
+    <roiY>400</roiY>
+    <roiW>1600</roiW>
+    <roiH>1600</roiH>
+
+    <!--//点云过滤参数，在这个范围内的点云是有效点云-->
+    <ptMinX>-300</ptMinX>
+    <ptMaxX>240</ptMaxX>
+    <ptMinY>-170</ptMinY>
+    <ptMaxY>240</ptMaxY>
+    <ptMinZ>750</ptMinZ>
+    <ptMaxZ>1250</ptMaxZ>
+
+    <!--//下采样参数-->
+    <downSampeX>1</downSampeX>
+    <downSampeY>1</downSampeY>
+    <downSampeZ>1</downSampeZ>
+
+    <!--//统计滤波-->
+    <meanK>100</meanK>
+    <mulStd>0.01</mulStd>
+
+    <!--//平面分割-->
+    <segdistanceThreshold>3</segdistanceThreshold>
+    <segBkgroundMinSize>1000</segBkgroundMinSize>
+    <segBkgroundMaxSize>1000000</segBkgroundMaxSize>
+
+    <!--//计算法向量所需的半径-->
+    <normalRadius>3</normalRadius>
+    <!--//点云噪声过滤的滤波半径-->
+    <filterRadius>2</filterRadius>
+    <filterMinNum>4</filterMinNum>
+
+    <!--//夹角阈值，夹角大于该度则不处理-->
+    <maxAngleInDegreeWithBkground>30</maxAngleInDegreeWithBkground>
+
+    <!--//平面拟合的距离参数-->
+    <segScrewdistanceThreshold>4</segScrewdistanceThreshold>
+    <segScrewMinSize>100</segScrewMinSize>
+    <segScrewMaxSize>1000</segScrewMaxSize>
+
+    <Mat_2DCamera23DCamera type_id="opencv-matrix">
+        <rows>3</rows>
+        <cols>3</cols>
+        <dt>f</dt>
+        <data>
+            1.00000  0.00000  0.00000
+            0.00000  1.00000  0.00000
+            0.00000  0.00000  1.00000
+        </data>
+    </Mat_2DCamera23DCamera>
+</opencv_storage>
