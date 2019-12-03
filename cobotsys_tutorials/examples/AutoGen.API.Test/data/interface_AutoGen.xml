@@ -1,0 +1,33 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+        "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node namespace-macro-keywords="Sparrow;AutoGen"
+      cppname="AutoGen"
+      thread-proxy-name="AutoGenProxy"
+      interface-includes=""
+      interface-includes-sys=""
+      need-name-param="true"
+      dest="Sparrow.AutoGen" path="/Sparrow/AutoGen"
+      code-author="zhoupeng">
+    <interface name="AutoGen.Basic">
+
+        <method name="open" virtual="1"
+                desc="打开设备@
+                    返回值:返回整形 0:成功@
+                    cameraID: 相机ID@">
+
+            <arg name="result" direction="return" type="i"/>
+            <arg name="types" direction="in" type="v{$(unsigned short)}"/>
+        </method>
+
+        <signal name="onItemChanged" type="notify"
+                desc="notify client when item's value changed@
+                key:the key of the item@
+                value:the new value of the item@"
+        >
+            <arg name="key"    type="s" const="0" ref="0"/>
+            <arg name="value"  type="s" const="0" ref="0"/>
+        </signal>
+
+    </interface>
+</node>
+

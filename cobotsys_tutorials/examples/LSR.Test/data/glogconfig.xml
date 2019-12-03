@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cobot>
+	<item key ="sys.glog.logfile.level" value="INFO"/>
+	<item key ="sys.glog.logfile.enable" value="true"/>
+	<item key ="sys.glog.logfile.multi.enable" value="false"/>
+	<item key ="sys.glog.only.console.enable" value="false"/>
+	<item key ="sys.glog.console.level" value="INFO"/>
+	<item key ="sys.glog.maxlogsizemb" value="10"/>
+	<item key ="sys.glog.output.speedms" value="10"/>
+	<item key ="sys.glog.stoplogiffulldisk" value="true"/>
+</cobot>
+

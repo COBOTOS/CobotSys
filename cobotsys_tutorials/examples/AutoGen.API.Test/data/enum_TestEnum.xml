@@ -1,0 +1,17 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+        "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node namespace-macro-keywords="Sparrow;AutoGen"
+      interface-includes=""
+      interface-includes-sys="dbus-cxx/messageiterator.h;dbus-cxx/messageappenditerator.h"
+      code-author="qishimeng">
+    <customenum name="TestEnum">
+        <member name="MoveJ"                       value="0" desc="让机器人走曲线"/>
+        <member name="MoveL"                                desc="让机器人走直线"/>
+        <member name="SetIO"                                />
+        <member name="Delay"                                />
+        <member name="ServoJ"                               />
+        <member name="MoveJGO"                              />
+        <member name="MoveLGO"                              />
+        <member name="MoveAbsJ"                             />
+    </customenum>
+</node>

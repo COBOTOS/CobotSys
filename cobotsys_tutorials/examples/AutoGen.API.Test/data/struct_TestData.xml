@@ -1,0 +1,15 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+        "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node namespace-macro-keywords="Sparrow;AutoGen"
+      interface-includes=""
+      interface-includes-sys="string;vector"
+      file-prefix=""
+      code-author="chenke">
+    <customstruct name="TestData">
+        <member name="strFrame"                   direction="in" type="s" desc="frame的名字@frame的名字可以参考workcell.xml中的写法" />
+        <member name="strRefFrame"                        direction="in" type="s" desc="strFrame参考的frame名字"/>
+        <member name="xyzrpyWithBound"                direction="in" type="$(XYZRPYWithBound)" />
+        <member name="strAngleUnit"                   direction="in" type="s" />
+        <member name="strDistanceUnit"                        direction="in" type="s" />
+    </customstruct>
+</node>
