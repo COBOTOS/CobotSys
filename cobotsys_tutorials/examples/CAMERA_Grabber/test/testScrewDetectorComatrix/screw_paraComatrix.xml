@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 <opencv_storage>
-    <roiX>400</roiX><!--对comatrix相机截取图像的ROI区域参数-->
+    <!--(2D图像有效区域)-->
+    <!--对comatrix相机截取图像的ROI区域参数-->
+    <roiX>400</roiX>
     <roiY>400</roiY>
     <roiW>1600</roiW>
     <roiH>1600</roiH>
 
+    <!--(3D点云有效区域)-->
     <ptMinX>-300</ptMinX><!--点云过滤参数，在这个范围内的点云是有效点云-->
     <ptMaxX>300</ptMaxX><!--点云过滤参数，在这个范围内的点云是有效点云-->
     <ptMinY>-300</ptMinY><!--点云过滤参数，在这个范围内的点云是有效点云-->
@@ -34,40 +37,5 @@
     <segScrewdistanceThreshold>4</segScrewdistanceThreshold><!--平面拟合的距离参数-->
     <segScrewMinSize>65</segScrewMinSize><!--允许的点云簇的最小尺寸-->
     <segScrewMaxSize>1000</segScrewMaxSize><!--允许的点云簇的最大尺寸-->
-
-    <fx>2471.055089</fx>
-    <fy>2472.067561</fy>
-    <cx>1218.729169</cx>
-    <cy>1025.632736</cy>
-
-    <Mat_2DCamera23DCamera type_id="opencv-matrix">
-        <rows>3</rows>
-        <cols>3</cols>
-        <dt>f</dt>
-        <data>
-            1.00000  0.00000  0.00000
-            0.00000  1.00000  0.00000
-            0.00000  0.00000  1.00000
-        </data>
-    </Mat_2DCamera23DCamera>
-
-
-    <!--//重建参数-->
-    <!--//贪婪三角化参数-->
-    <!--<greedyConnectPointDisMax>20</greedyConnectPointDisMax>//贪婪三角化连接点之间最大距离-->
-    <!--<greedySearchDisMax>3</greedySearchDisMax>//设置连接点最大距离-->
-    <!--<greedyNearestNeighborsNum>20</greedyNearestNeighborsNum>//设置可搜索邻域个数-->
-    <!--<greedySurfaceAngle>45</greedySurfaceAngle>//设置法线方向偏离样本的最大角度    //单位 度-->
-    <!--<greedyMinInteriorAngle>10</greedyMinInteriorAngle>//设置三角化得到的内角最小角度 //单位 度-->
-    <!--<greedyMaxInteriorAngle>120</greedyMaxInteriorAngle>//设置三角化得到的内角最小角度    //单位 度-->
-    <!--<greedyNormalConsistency>false</greedyNormalConsistency>//设置保证法线朝向一致-->
-    <!--<poissonConfidence>false</poissonConfidence>//是否使用发想了的大小作为置信信息。如果false，所有法向量均归一化-->
-    <!--<poissonDegree>2</poissonDegree>//设置参数degree[1,5],值越大越精细，耗时越久-->
-    <!--<poissonDepth>8</poissonDepth>//树的最大深度，立方体元。由于八叉树自适应采样密度，指定值仅为最大深度。-->
-    <!--<poissonIsoDivide>8</poissonIsoDivide>//用于提取ISO等值面的算法的深度-->
-    <!--<poissonOutputPolygons>false</poissonOutputPolygons>//是否输出多边形网格（而不是三角化移动立方体的结果）-->
-    <!--<poissonSamplesPerNode></poissonSamplesPerNode>//设置落入一个八叉树结点中的样本点的最小数量。无噪声，[1.0-5.0],有噪声[15.-20.]平滑-->
-    <!--<poissonScale>1.25</poissonScale>//设置用于重构的立方体直径和样本边界立方体直径的比率-->
-    <!--<poissonSolverDivide>8</poissonSolverDivide>//设置求解线性方程组的Gauss-Seidel迭代方法的深度-->
 
 </opencv_storage>
