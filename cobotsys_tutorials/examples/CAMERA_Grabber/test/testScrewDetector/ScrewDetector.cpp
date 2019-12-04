@@ -187,14 +187,14 @@ bool ScrewDetector::getPoseInfo(pcl::PointCloud<pcl::PointXYZ>::Ptr &incloud ,cv
     double time_getPoseInfo_005 = cv::getTickCount();
 
 #ifdef DEBUG_SCREW
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_bkgroundcloud(new pcl::visualization::PCLVisualizer("bkgroundcloud"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_bkgroundcloud(new pcl::visualization::PCLVisualizer("背景平面"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color_viewer_bkgroundcloud(bkgroundcloud, 255, 0, 0);
     viewer_bkgroundcloud->addPointCloud<pcl::PointXYZ> (bkgroundcloud, single_color_viewer_bkgroundcloud, "bkgroundcloud");
     while (!viewer_bkgroundcloud->wasStopped()){
         viewer_bkgroundcloud->spin();
     }
 
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_targetcloud(new pcl::visualization::PCLVisualizer("targetcloud"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_targetcloud(new pcl::visualization::PCLVisualizer("疑似螺钉点云"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color_targetcloud(targetcloud, 255, 0, 0);
     viewer_targetcloud->addPointCloud<pcl::PointXYZ> (targetcloud, single_color_targetcloud, "targetcloud");
     while (!viewer_targetcloud->wasStopped()){
@@ -219,7 +219,7 @@ bool ScrewDetector::getPoseInfo(pcl::PointCloud<pcl::PointXYZ>::Ptr &incloud ,cv
         bool res = getScrewPose(screwclusters[i],clusterpose);
         if (res){
             maskNum ++ ;
-            ptcloud2ptimg(screwclusters[i] , incloudImg, maskNum);//maskNum = 螺丝点云编号 + 1//后续便于将图像mask与点云位置对应
+            ptcloud2ptimg(screwclusters[i] , incloudImg, maskNum*10);//maskNum = 螺丝点云编号 + 1//后续便于将图像mask与点云位置对应
             clusterspose.push_back(clusterpose);
             screwParam.push_back(clusterpose);
         }
@@ -232,8 +232,8 @@ bool ScrewDetector::getPoseInfo(pcl::PointCloud<pcl::PointXYZ>::Ptr &incloud ,cv
     std::cout<<"time_getPoseInfo_005-006:" << 1000*(time_getPoseInfo_006-time_getPoseInfo_005)/cv::getTickFrequency()<<std::endl;
     std::cout<<"time_getPoseInfo_006-007:" << 1000*(time_getPoseInfo_007-time_getPoseInfo_006)/cv::getTickFrequency()<<std::endl;
 
-    cv::namedWindow("maskColorImg",cv::WINDOW_NORMAL);
-    cv::imshow("maskColorImg",_maskColorImg);
+    cv::namedWindow("2D平面螺钉图",cv::WINDOW_NORMAL);
+    cv::imshow("2D平面螺钉图",_maskColorImg);
     cv::waitKey(0);
     cv::cvtColor(_maskColorImg, _maskImg, cv::COLOR_RGB2BGR);
 //    cv::imwrite("/home/cobot/demo/screw/0531/3D+2D/maskImg.bmp",_maskImg);
@@ -298,7 +298,7 @@ bool ScrewDetector::getRoi(pcl::PointCloud<pcl::PointXYZ>::Ptr &oricloud){
     }
 
 #ifdef DEBUG_SCREW
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_roi(new pcl::visualization::PCLVisualizer("getRoi"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_roi(new pcl::visualization::PCLVisualizer("获取感兴趣区域"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color0(oricloud, 255, 0, 0);
     viewer_roi->addPointCloud<pcl::PointXYZ> (oricloud, single_color0, "getRoi");
     while (!viewer_roi->wasStopped()){
@@ -321,7 +321,7 @@ bool ScrewDetector::downsample(pcl::PointCloud<pcl::PointXYZ>::Ptr &oricloud ){
     std::cout<<"toolKit downsample"<<oricloud->points.size()<<std::endl;
 
 #ifdef DEBUG_SCREW
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_roi(new pcl::visualization::PCLVisualizer("downsample"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_roi(new pcl::visualization::PCLVisualizer("点云下采样"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color0(oricloud, 255, 0, 0);
     viewer_roi->addPointCloud<pcl::PointXYZ> (oricloud, single_color0, "downsample");
     while (!viewer_roi->wasStopped()){
@@ -348,9 +348,9 @@ bool ScrewDetector::radiusfilter(pcl::PointCloud<pcl::PointXYZ>::Ptr &oricloud )
     std::cout<<"toolKit radiusfilter"<<oricloud->points.size()<<std::endl;
 
 #ifdef DEBUG_SCREW
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_roi(new pcl::visualization::PCLVisualizer("downsample"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_roi(new pcl::visualization::PCLVisualizer("半径滤波，去除杂点"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color0(oricloud, 255, 0, 0);
-    viewer_roi->addPointCloud<pcl::PointXYZ> (oricloud, single_color0, "downsample");
+    viewer_roi->addPointCloud<pcl::PointXYZ> (oricloud, single_color0, "radiusfilter");
     while (!viewer_roi->wasStopped()){
         viewer_roi->spin();
     }
@@ -412,7 +412,7 @@ bool ScrewDetector::getbkground(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud,pcl::
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloudFilter(new pcl::PointCloud<pcl::PointXYZ>);
     bool res = statisticalFilter(cloud, _param.meanK, _param.mulStd, cloudFilter);
 
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer01(new pcl::visualization::PCLVisualizer("statisticalFilter"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer01(new pcl::visualization::PCLVisualizer("统计滤波，取出远点"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color01(cloudFilter, 255,255,255);
     viewer01->addPointCloud<pcl::PointXYZ> (cloudFilter, single_color01, "statisticalFilter");
 
@@ -541,9 +541,9 @@ bool ScrewDetector::getClusters(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud,std::
     }
 
 #ifdef DEBUG_SCREW
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("getClusters"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("获取点云簇，并上色显示"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color0(cloud, 255, 255, 255);
-    viewer->addPointCloud<pcl::PointXYZ> (cloud, single_color0, "oricloud");
+    viewer->addPointCloud<pcl::PointXYZ> (cloud, single_color0, "getClusters");
 #endif
     for (int i = 0; i < clusterIndices.size(); ++i) {
         pcl::PointCloud<pcl::PointXYZ>::Ptr screwcluster (new pcl::PointCloud<pcl::PointXYZ>);
@@ -703,9 +703,9 @@ bool ScrewDetector::getScrewPose(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud, Obj
 
 #ifdef DEBUG_SCREW
     //4.判断螺丝点云的周围点云，若周围点云平均比螺丝点云低，认为是螺丝
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer2(new pcl::visualization::PCLVisualizer("getScrewPose"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer2(new pcl::visualization::PCLVisualizer("单个点云簇，计算螺丝位置"));
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color(cloud, 255, 0, 0);
-    viewer2->addPointCloud<pcl::PointXYZ>(cloud, single_color, "cloud");
+    viewer2->addPointCloud<pcl::PointXYZ>(cloud, single_color, "getScrewPose");
 
     while(!viewer2->wasStopped()){
         viewer2->spin();
@@ -1172,12 +1172,6 @@ void ScrewDetector::matToPCD(const cv::Mat &pointCloud, pcl::PointCloud<pcl::Poi
 bool ScrewDetector::cropROI(const cv::Mat &imgOrg, const cv::Mat &pcOrg, cv::Mat &imgROI, cv::Mat &pcROI) {
     imgROI = imgOrg(cv::Rect(_param.roiX, _param.roiY, _param.roiW, _param.roiH)).clone();
     pcROI = pcOrg(cv::Rect(_param.roiX, _param.roiY, _param.roiW, _param.roiH)).clone();
-#ifdef DEBUG_MEDICINE_BOX
-    cv::namedWindow("roiImg", CV_WINDOW_NORMAL);
-    cv::imshow("roiImg", imgROI);
-    cv::namedWindow("roiPt", CV_WINDOW_NORMAL);
-    cv::imshow("roiPt", pcROI);
-    cv::waitKey(1);
-#endif
+
     return true;
 }

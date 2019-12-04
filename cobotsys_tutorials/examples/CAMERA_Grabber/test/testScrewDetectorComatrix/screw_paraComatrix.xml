@@ -1,46 +1,44 @@
 <?xml version="1.0"?>
 <opencv_storage>
-    <!--//对comatrix相机截取图像的ROI区域参数-->
-    <roiX>400</roiX>
+    <roiX>400</roiX><!--对comatrix相机截取图像的ROI区域参数-->
     <roiY>400</roiY>
     <roiW>1600</roiW>
     <roiH>1600</roiH>
 
-    <!--//点云过滤参数，在这个范围内的点云是有效点云-->
-    <ptMinX>-300</ptMinX>
-    <ptMaxX>240</ptMaxX>
-    <ptMinY>-170</ptMinY>
-    <ptMaxY>240</ptMaxY>
-    <ptMinZ>750</ptMinZ>
-    <ptMaxZ>1250</ptMaxZ>
+    <ptMinX>-300</ptMinX><!--点云过滤参数，在这个范围内的点云是有效点云-->
+    <ptMaxX>300</ptMaxX><!--点云过滤参数，在这个范围内的点云是有效点云-->
+    <ptMinY>-300</ptMinY><!--点云过滤参数，在这个范围内的点云是有效点云-->
+    <ptMaxY>300</ptMaxY><!--点云过滤参数，在这个范围内的点云是有效点云-->
+    <ptMinZ>200</ptMinZ><!--点云过滤参数-->
+    <ptMaxZ>700</ptMaxZ><!--点云过滤参数，在这个范围内的点云是有效点云-->
 
-    <!--//下采样参数-->
-    <downSampeX>1</downSampeX>
-    <downSampeY>1</downSampeY>
-    <downSampeZ>1</downSampeZ>
+    <downSampeX>1</downSampeX><!--下采样参数-->
+    <downSampeY>1</downSampeY><!--下采样参数-->
+    <downSampeZ>1</downSampeZ><!--下采样参数-->
 
-    <!--//统计滤波-->
-    <meanK>100</meanK>
-    <mulStd>0.01</mulStd>
+    <meanK>100</meanK><!--邻域点个数-->
+    <mulStd>0.01</mulStd><!--标准差的乘数-->
 
-    <!--//平面分割-->
-    <segdistanceThreshold>3</segdistanceThreshold>
-    <segBkgroundMinSize>1000</segBkgroundMinSize>
-    <segBkgroundMaxSize>1000000</segBkgroundMaxSize>
+    <segdistanceThreshold>3</segdistanceThreshold><!--平面拟合的距离参数-->
+    <segBkgroundMinSize>1000</segBkgroundMinSize><!--背景最小点云数量-->
+    <segBkgroundMaxSize>1000000</segBkgroundMaxSize><!--背景最大点云数量-->
 
-    <!--//计算法向量所需的半径-->
-    <normalRadius>3</normalRadius>
-    <!--//点云噪声过滤的滤波半径-->
-    <filterRadius>2</filterRadius>
-    <filterMinNum>4</filterMinNum>
+    <normalRadius>3</normalRadius><!--计算法向量所需的半径-->
+    <maxAngletoCamera>50</maxAngletoCamera>
 
-    <!--//夹角阈值，夹角大于该度则不处理-->
-    <maxAngleInDegreeWithBkground>30</maxAngleInDegreeWithBkground>
+    <filterRadius>2</filterRadius><!--点云噪声过滤的滤波半径-->
+    <filterMinNum>4</filterMinNum><!--点云噪声过滤的最小数-->
 
-    <!--//平面拟合的距离参数-->
-    <segScrewdistanceThreshold>4</segScrewdistanceThreshold>
-    <segScrewMinSize>100</segScrewMinSize>
-    <segScrewMaxSize>1000</segScrewMaxSize>
+    <maxAngleInDegreeWithBkground>10</maxAngleInDegreeWithBkground><!--夹角阈值，夹角大于该度则不处理-->
+
+    <segScrewdistanceThreshold>4</segScrewdistanceThreshold><!--平面拟合的距离参数-->
+    <segScrewMinSize>65</segScrewMinSize><!--允许的点云簇的最小尺寸-->
+    <segScrewMaxSize>1000</segScrewMaxSize><!--允许的点云簇的最大尺寸-->
+
+    <fx>2471.055089</fx>
+    <fy>2472.067561</fy>
+    <cx>1218.729169</cx>
+    <cy>1025.632736</cy>
 
     <Mat_2DCamera23DCamera type_id="opencv-matrix">
         <rows>3</rows>
@@ -52,4 +50,24 @@
             0.00000  0.00000  1.00000
         </data>
     </Mat_2DCamera23DCamera>
+
+
+    <!--//重建参数-->
+    <!--//贪婪三角化参数-->
+    <!--<greedyConnectPointDisMax>20</greedyConnectPointDisMax>//贪婪三角化连接点之间最大距离-->
+    <!--<greedySearchDisMax>3</greedySearchDisMax>//设置连接点最大距离-->
+    <!--<greedyNearestNeighborsNum>20</greedyNearestNeighborsNum>//设置可搜索邻域个数-->
+    <!--<greedySurfaceAngle>45</greedySurfaceAngle>//设置法线方向偏离样本的最大角度    //单位 度-->
+    <!--<greedyMinInteriorAngle>10</greedyMinInteriorAngle>//设置三角化得到的内角最小角度 //单位 度-->
+    <!--<greedyMaxInteriorAngle>120</greedyMaxInteriorAngle>//设置三角化得到的内角最小角度    //单位 度-->
+    <!--<greedyNormalConsistency>false</greedyNormalConsistency>//设置保证法线朝向一致-->
+    <!--<poissonConfidence>false</poissonConfidence>//是否使用发想了的大小作为置信信息。如果false，所有法向量均归一化-->
+    <!--<poissonDegree>2</poissonDegree>//设置参数degree[1,5],值越大越精细，耗时越久-->
+    <!--<poissonDepth>8</poissonDepth>//树的最大深度，立方体元。由于八叉树自适应采样密度，指定值仅为最大深度。-->
+    <!--<poissonIsoDivide>8</poissonIsoDivide>//用于提取ISO等值面的算法的深度-->
+    <!--<poissonOutputPolygons>false</poissonOutputPolygons>//是否输出多边形网格（而不是三角化移动立方体的结果）-->
+    <!--<poissonSamplesPerNode></poissonSamplesPerNode>//设置落入一个八叉树结点中的样本点的最小数量。无噪声，[1.0-5.0],有噪声[15.-20.]平滑-->
+    <!--<poissonScale>1.25</poissonScale>//设置用于重构的立方体直径和样本边界立方体直径的比率-->
+    <!--<poissonSolverDivide>8</poissonSolverDivide>//设置求解线性方程组的Gauss-Seidel迭代方法的深度-->
+
 </opencv_storage>

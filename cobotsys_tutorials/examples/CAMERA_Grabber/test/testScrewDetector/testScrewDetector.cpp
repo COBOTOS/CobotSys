@@ -58,7 +58,7 @@ int main(){
     int num =0;
 
     //*图形显示模块*//
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_all(new pcl::visualization::PCLVisualizer("3D viewer_screw"));
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer_all(new pcl::visualization::PCLVisualizer("3D螺钉图"));
     showcloud<pcl::PointXYZ>(viewer_all,"incloud",incloud,255,255,255);
     for (auto i : screw_poses) {
 
