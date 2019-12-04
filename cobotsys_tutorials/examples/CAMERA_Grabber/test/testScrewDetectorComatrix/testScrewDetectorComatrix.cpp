@@ -1,7 +1,23 @@
 #include <iostream>
 
-#include "ScrewDetector.h"
+#include "ScrewDetectorComatrix.h"
 #include <pcl/common/common_headers.h>
+#include <Camera3DFactoryInterface.h>
+#include <opencv2/opencv.hpp>
+#include <Camera3DInterface.h>
+#include <boost/shared_ptr.hpp>
+//统一的日志管理,使用此头文件
+#include <logger/Logger.h>
+//如需要对日志进行配置,使用此头文件,且必须要有配置文件 glogconfig.xml
+#include <logger/GlogConfig.h>
+
+
+//如使用日志配置,需使用此命名空间
+using namespace TIGER_COMMON_NS_API;
+//力传感器使用此命名空间
+using namespace EAGLE_CAMERA3D_NS_API;
+using namespace boost;
+using namespace EAGLE_DATA_NS_API;
 
 #define GET_SCREWPOSE
 
@@ -39,14 +55,28 @@ int main(){
 
 #ifdef GET_SCREWPOSE
 
+    //创建相机工厂对象
+    shared_ptr<Camera3DFactoryInterface> Factory = Camera3DFactoryInterface::create();
+    //通过工厂对象创建对象
+    shared_ptr<Camera3DInterface> camera = Factory->createCamera3D("comatrix");
+    int ret1 = camera->open("COSD0511003");
+    if(ret1 == 0){
+        LOG_INFO << "Connect camera successfully!";
+    } else{
+        LOG_ERROR << "Connect camera failed!";
+        return -1;
+    }
+    std::vector<boost::shared_ptr<VisionInputImage>> images = camera->captureSync();
+    boost::shared_ptr<cv::Mat> dep = images[2]->image;
+
     //加载点云
-    cv::Mat inimg;
-    cv::FileStorage fr("../test/testScrewDetector/mat.pcd", cv::FileStorage::READ);
-    fr["data"]>>inimg;
-    fr.release();
+    cv::Mat inimg = *dep;
+//    cv::FileStorage fr("../test/testScrewDetector/mat.pcd", cv::FileStorage::READ);
+//    fr["data"]>>inimg;
+//    fr.release();
 
     //获取参数
-    std::string paramFullPath = "../test/testScrewDetector/screw_para.xml";
+    std::string paramFullPath = "../test/testScrewDetectorComatrix/screw_paraComatrix.xml";
     std::shared_ptr<ScrewDetector> screw = std::make_shared<ScrewDetector>(paramFullPath);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr incloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -79,11 +109,6 @@ int main(){
         viewer_all->spin();
     }
 
-
     return 0;
 #endif
-
-
-
-
 }
