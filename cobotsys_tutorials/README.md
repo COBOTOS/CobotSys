@@ -45,7 +45,7 @@ include($ENV{SDK_PATH}/Tiger/Tiger.Make/cmake/template/test.executable.cmake)
 
 安装完成后cobotsys_sdk为一级目录，进去后XXX为二级目录，再进去后XXX.XXX.XXX为三级目录。
 
-打开终端，进入cobotsys_sdk目录，执行source setenv.sh设置环境变量，再执行. go.sh编译前需执行一遍对目录进行扫描。
+打开终端，进入cobotsys_sdk目录，执行source setenv.sh设置环境变量。
 
 执行make+二级目录名，即可编译整个二级目录。如附件中的示例，执行make Chicken即可整体编译。
 
@@ -3062,14 +3062,14 @@ RobWork的头文件分布在多个目录中，每个目录都有自己的命名�
   #include <rw/kinematics/Frame.hpp>
   using namespace rw::models; //Namespace for WorkCell included by #include<rw/models/WorkCell.hpp>
   using namespace rw::kinematics; //Namespace for Frame included by #include <rw/kinematics/Frame.hpp>
-  ```  
+  ```
   与Robworkstudio包相关的所有类都放置在命名空间rws中。
 
 #### 4.1.2 链接库（Libraries）
 所有RobWork的类都在一个名为rw的库中，rwlibs目录（对应rw库）下的子目录对应于不同的库。不同库可以rw_表示，比如rwlibs/xyz对应于名为rw_xyz的链接库，其命名空间为rwlibs::xyz。再举一例子：  
 ```
 #include <rwlibs/pathplanners/rrt/RRTPlanner.hpp>
-```  
+```
 为了编译上述头文件，需要link链接库rw_pathplanners。 
 
 #### 4.2 序列化（Serialization）
