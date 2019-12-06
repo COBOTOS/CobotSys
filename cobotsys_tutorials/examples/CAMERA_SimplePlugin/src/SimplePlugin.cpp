@@ -10,6 +10,7 @@
 
 #include <Camera3DFactoryInterface.h>
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/types_c.h>
 #include <Camera3DInterface.h>
 #include <boost/shared_ptr.hpp>
 //统一的日志管理,使用此头文件
@@ -36,12 +37,9 @@ SimplePlugin::~SimplePlugin() {
 void SimplePlugin::initWidget(QDockWidget *parent) {
     ui = new Ui::SimplePluginUI();
     ui->setupUi(parent);
-    connect(ui->btn_test, &QPushButton::released,
-            this, &SimplePlugin::test);
-}
 
-void SimplePlugin::initialize() {
-    
+    auto _cplusThread = std::make_shared<std::thread>(&SimplePlugin::test,this);
+    _cplusThread->detach();
 }
 
 void SimplePlugin::close(){
@@ -49,8 +47,6 @@ void SimplePlugin::close(){
 }
 
 void SimplePlugin::test(){
-    //使用日志配置时使用,必须要有配置文件
-//    glogconfig.xml GlogConfig::config(__COBOTSYS_MODULE_NAME__);
     //创建相机工厂对象
     shared_ptr<Camera3DFactoryInterface> Factory = Camera3DFactoryInterface::create();
     //通过工厂对象创建对象
@@ -60,17 +56,19 @@ void SimplePlugin::test(){
 
     for(int i = 0 ;i < 100000;i++){
         std::vector<boost::shared_ptr<VisionInputImage>> images = camera->captureSync();
-        cv::namedWindow("2D",cv::WINDOW_AUTOSIZE);
-        cv::imshow("2D",*images[0]->image);
-        cv::namedWindow("3D",cv::WINDOW_AUTOSIZE);
-        cv::imshow("3D",*images[1]->image);
-//        cv::namedWindow("cloud",cv::WINDOW_AUTOSIZE);
-//        cv::imshow("cloud",*images[2]->image);
-        cv::waitKey(10);
-    }
-    const char*path = "/home/cobot/Desktop/test.bmp";
-//    cv::imwrite(path,*images[1]->image);
-//    LOG_INFO << "Pic count" << images.size();
+        auto tmpMat = *images[0]->image;
 
+        auto cvWidth=tmpMat.cols;
+        auto cvHeight=tmpMat.rows;
+        if (tmpMat.channels() == 1) {
+            cv::cvtColor(tmpMat, tmpMat, CV_BGR2GRAY);
+        } else {
+            cv::cvtColor(tmpMat, tmpMat, CV_BGR2RGB);
+        }
+        QImage tmpQImage = QImage((const uchar *) (tmpMat.data), tmpMat.cols, tmpMat.rows, tmpMat.step,
+                               QImage::Format_RGB888);
+
+        ui->label->setPixmap(QPixmap::fromImage(tmpQImage).scaled(cvWidth, cvHeight));
+    }
     camera->close();
 }

@@ -23,9 +23,6 @@ public:
     //! @brief Destructor.
     virtual ~SimplePlugin();
 
-    //! @copydoc RobWorkStudioPlugin::initialize
-    void initialize();
-
     void initWidget(QDockWidget *parent);
 
     void close();
@@ -33,11 +30,6 @@ public:
     void test();
 private:
     Ui::SimplePluginUI *ui;//视图
-
-    QTimer *_timer;
-
-    rw::models::WorkCell::Ptr _workcell;
-    rw::models::Device::Ptr _device;
 };
 
 #endif //COBOTSTUDIO_SimplePlugin_H
